@@ -1,4 +1,4 @@
-package ca.mcgill.ecse420.a1;
+package mcgill.ecse420.a1;
 
 public class DiningPhilosophersv1 {
 

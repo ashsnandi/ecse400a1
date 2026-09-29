@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: ca.mcgill.ecse420.a1.MatrixMultiplicationMoreTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in ca.mcgill.ecse420.a1.MatrixMultiplicationMoreTest
