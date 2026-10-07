@@ -49,6 +49,7 @@ public class MatrixMultiplication {
 	 * The two matrices are randomly generated
 	 * @param a is the first matrix
 	 * @param b is the second matrix
+	 * - added parameter for number of threads for testing purposes
 	 * @return the result of the multiplication
 	 * */
 		public static double[][] parallelMultiplyMatrix(double[][] a, double[][] b) {
@@ -71,6 +72,55 @@ public class MatrixMultiplication {
 							sum += a[row][z] * b[z][j];
 						}
 						result[row][j] = sum;
+					}
+				});
+			}
+
+			es.shutdown();
+			try {
+				// wait up to 4 minute for all tasks to finish
+				if (!es.awaitTermination(500, java.util.concurrent.TimeUnit.SECONDS)) {
+					es.shutdownNow();
+					throw new RuntimeException("Timed out waiting for parallel tasks to finish");
+				}
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new RuntimeException(e);
+			}
+
+			return result;
+
+		}
+		/**
+		 * Returns the result of a concurrent matrix multiplication
+		 * The two matrices are randomly generated
+		 * @param a is the first matrix
+		 * @param b is the second matrix
+		 * @param nThreads is the number of threads to use
+		 * @return the result of the multiplication
+		 * */
+		public static double[][] parallelMultiplyMatrix(double[][] a, double[][] b, int nThreads) {
+			if (a == null || b == null) throw new IllegalArgumentException("Input matrices must not be null");
+			int m = a.length;
+			int p = a[0].length;
+			int n = b[0].length;
+			if (p != b.length) throw new IllegalArgumentException("Inner dimensions must match for multiplication");
+
+			double[][] result = new double[m][n];
+
+			ExecutorService es = Executors.newFixedThreadPool(Math.max(1, NUMBER_THREADS));
+
+			for (int i = 0; i < m; i++) {
+				final int row = i;
+				es.execute(() -> {
+					double[] rowA = a[row];
+					double[] rowC = result[row];
+					for (int z = 0; z < p; z++){
+						double aik = rowA[z];
+						double[] rowB = b[z];
+						for (int j = 0; j < n; j++){
+							rowC[j] += aik * rowB[j];
+						}
 					}
 				});
 			}

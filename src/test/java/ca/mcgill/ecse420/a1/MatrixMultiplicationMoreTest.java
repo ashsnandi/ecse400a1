@@ -2,6 +2,9 @@ package ca.mcgill.ecse420.a1;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.HashMap;
+import java.util.ArrayList;
+
 import mcgill.ecse420.a1.MatrixMultiplication;
 
 import org.junit.jupiter.api.Test;
@@ -56,6 +59,55 @@ class MatrixMultiplicationMoreTest {
 
             assertMatrixEquals(seq, par);
         }
+    }
+
+    @Test 
+    void testVaryingByThreadCount(){
+        HashMap<Integer, Long> times = new HashMap<>();
+        int[] sizes = {100,200,500,1000,2000,3000,4000};
+        for (int t: sizes) {
+            double[][] a = randomMatrix(t,t);
+            double[][] b = randomMatrix(t,t);
+
+
+            long startTimes = System.nanoTime();
+            double[][] seq = MatrixMultiplication.sequentialMultiplyMatrix(a, b);
+            long endTimes = System.nanoTime();
+            times.put(t, endTimes - startTimes);
+
+            long startTime = System.nanoTime();
+            double[][] par = MatrixMultiplication.parallelMultiplyMatrix(a, b,13);
+            long endTime = System.nanoTime();
+            times.put(t+1, endTime - start  Time);
+            
+        }
+        for (int t: sizes) {
+            
+            System.out.println(t + ", " + times.get(t));
+            System.out.println(t + ", " + times.get(t+1));
+        }
+
+    }
+
+    @Test 
+    void testVaryingSize(){
+        HashMap<Integer, Long> times = new HashMap<>();
+        for (int t = 1; t < 100; t++) {
+            int size = 1000;
+            double[][] a = randomMatrix(size, size);
+            double[][] b = randomMatrix(size, size);
+
+            double[][] seq = MatrixMultiplication.sequentialMultiplyMatrix(a, b);
+            long startTime = System.nanoTime();
+            double[][] par = MatrixMultiplication.parallelMultiplyMatrix(a, b);
+            long endTime = System.nanoTime();
+            times.put(t, endTime - startTime);
+            
+        }
+        for (int t = 1; t < 100; t++) {
+            System.out.println(t + ", " + times.get(t));
+        }
+
     }
 
     private static void assertMatrixEquals(double[][] expected, double[][] actual) {
