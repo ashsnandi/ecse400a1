@@ -3,6 +3,10 @@ package ca.mcgill.ecse420.a1;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.HashMap;
+import java.util.function.Function;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import mcgill.ecse420.a1.MatrixMultiplication;
@@ -81,12 +85,23 @@ class MatrixMultiplicationMoreTest {
             times.put(t+1, endTime - start  Time);
             
         }
+        File file = new File("times.csv");
+        try (PrintWriter writer = new PrintWriter(file)) {
+            StringBuilder sb = new StringBuilder();
         for (int t: sizes) {
-            
-            System.out.println(t + ", " + times.get(t));
-            System.out.println(t + ", " + times.get(t+1));
+                sb.append(t).append(",").append(times.get(t)).append("\n");
+            }
+            writer.write(sb.toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
 
+    }
+
+    void MeasureAndWrite(Function f, String[] args){
+        long startTime = System.nanoTime();
+        f.apply(args);
+        long endTime = System.nanoTime();
     }
 
     @Test 

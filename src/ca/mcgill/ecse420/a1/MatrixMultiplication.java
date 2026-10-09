@@ -61,17 +61,23 @@ public class MatrixMultiplication {
 
 			double[][] result = new double[m][n];
 
-			ExecutorService es = Executors.newFixedThreadPool(Math.max(1, NUMBER_THREADS));
+			int numThreads = Math.max(1, NUMBER_THREADS);
+			ExecutorService es = Executors.newFixedThreadPool(numThreads);
 
-			for (int i = 0; i < m; i++) {
-				final int row = i;
+			// split rows into one contiguous chunk per thread
+			int chunkSize = (m + numThreads - 1) / numThreads;
+			for (int start = 0; start < m; start += chunkSize) {
+				final int rowStart = start;
+				final int rowEnd = Math.min(start + chunkSize, m);
 				es.execute(() -> {
-					for (int j = 0; j < n; j++) {
-						double sum = 0.0;
-						for (int z = 0; z < p; z++) {
-							sum += a[row][z] * b[z][j];
+					for (int row = rowStart; row < rowEnd; row++) {
+						for (int j = 0; j < n; j++) {
+							double sum = 0.0;
+							for (int z = 0; z < p; z++) {
+								sum += a[row][z] * b[z][j];
+							}
+							result[row][j] = sum;
 						}
-						result[row][j] = sum;
 					}
 				});
 			}
@@ -108,18 +114,24 @@ public class MatrixMultiplication {
 
 			double[][] result = new double[m][n];
 
-			ExecutorService es = Executors.newFixedThreadPool(Math.max(1, NUMBER_THREADS));
+			int numThreads = Math.max(1, nThreads);
+			ExecutorService es = Executors.newFixedThreadPool(numThreads);
 
-			for (int i = 0; i < m; i++) {
-				final int row = i;
+			// split rows into one contiguous chunk per thread
+			int chunkSize = (m + numThreads - 1) / numThreads;
+			for (int start = 0; start < m; start += chunkSize) {
+				final int rowStart = start;
+				final int rowEnd = Math.min(start + chunkSize, m);
 				es.execute(() -> {
-					double[] rowA = a[row];
-					double[] rowC = result[row];
-					for (int z = 0; z < p; z++){
-						double aik = rowA[z];
-						double[] rowB = b[z];
-						for (int j = 0; j < n; j++){
-							rowC[j] += aik * rowB[j];
+					for (int row = rowStart; row < rowEnd; row++) {
+						double[] rowA = a[row];
+						double[] rowC = result[row];
+						for (int z = 0; z < p; z++){
+							double aik = rowA[z];
+							double[] rowB = b[z];
+							for (int j = 0; j < n; j++){
+								rowC[j] += aik * rowB[j];
+							}
 						}
 					}
 				});
