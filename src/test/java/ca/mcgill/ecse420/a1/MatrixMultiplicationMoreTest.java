@@ -3,11 +3,10 @@ package ca.mcgill.ecse420.a1;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.HashMap;
-import java.util.function.Function;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.io.UncheckedIOException;
 
 import mcgill.ecse420.a1.MatrixMultiplication;
 
@@ -65,43 +64,62 @@ class MatrixMultiplicationMoreTest {
         }
     }
 
-    @Test 
-    void testVaryingByThreadCount(){
-        HashMap<Integer, Long> times = new HashMap<>();
-        int[] sizes = {100,200,500,1000,2000,3000,4000};
-        for (int t: sizes) {
-            double[][] a = randomMatrix(t,t);
-            double[][] b = randomMatrix(t,t);
+    @Test
+    void testVaryingBySize() {
+        int[] sizes = {100, 200, 500, 1000, 2000, 3000, 4000};
+        int nThreads = 11;
 
+        StringBuilder sb = new StringBuilder("size,sequential_ns,parallel_ns\n");
+        for (int size : sizes) {
+            double[][] a = randomMatrix(size, size);
+            double[][] b = randomMatrix(size, size);
 
-            long startTimes = System.nanoTime();
-            double[][] seq = MatrixMultiplication.sequentialMultiplyMatrix(a, b);
-            long endTimes = System.nanoTime();
-            times.put(t, endTimes - startTimes);
+            double[][][] seq = new double[1][][];
+            double[][][] par = new double[1][][];
+            long seqTime = timeNanos(() -> seq[0] = MatrixMultiplication.sequentialMultiplyMatrix(a, b));
+            long parTime = timeNanos(() -> par[0] = MatrixMultiplication.parallelMultiplyMatrix(a, b, nThreads));
+            assertMatrixEquals(seq[0], par[0]);
 
-            long startTime = System.nanoTime();
-            double[][] par = MatrixMultiplication.parallelMultiplyMatrix(a, b,13);
-            long endTime = System.nanoTime();
-            times.put(t+1, endTime - start  Time);
-            
+            sb.append(size).append(',').append(seqTime).append(',').append(parTime).append('\n');
+            System.out.println(size + ", seq=" + seqTime + "ns, par=" + parTime + "ns");
         }
+
         File file = new File("times.csv");
         try (PrintWriter writer = new PrintWriter(file)) {
-            StringBuilder sb = new StringBuilder();
-        for (int t: sizes) {
-                sb.append(t).append(",").append(times.get(t)).append("\n");
-            }
             writer.write(sb.toString());
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new UncheckedIOException(e);
         }
-
     }
 
-    void MeasureAndWrite(Function f, String[] args){
+    @Test
+    void testVaryingByThreadCount() {
+        int size = 4000;
+        int maxThreads = 16;
+        double[][] a = randomMatrix(size, size);
+        double[][] b = randomMatrix(size, size);
+
+        StringBuilder sb = new StringBuilder("threads,parallel_ns\n");
+        for (int nThreads = 1; nThreads <= maxThreads; nThreads++) {
+            int threads = nThreads;
+            long parTime = timeNanos(() -> MatrixMultiplication.parallelMultiplyMatrix(a, b, threads));
+
+            sb.append(threads).append(',').append(parTime).append('\n');
+            System.out.println(threads + " threads, par=" + parTime + "ns");
+        }
+
+        File file = new File("threads.csv");
+        try (PrintWriter writer = new PrintWriter(file)) {
+            writer.write(sb.toString());
+        } catch (FileNotFoundException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private static long timeNanos(Runnable r) {
         long startTime = System.nanoTime();
-        f.apply(args);
-        long endTime = System.nanoTime();
+        r.run();
+        return System.nanoTime() - startTime;
     }
 
     @Test 

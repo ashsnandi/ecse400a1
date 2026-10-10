@@ -33,12 +33,14 @@ public class MatrixMultiplication {
 
 		double[][] result = new double[m][n];
 		for (int i = 0; i < m; i++){
-			for (int j = 0; j < n; j++){
-				double sum = 0.0;
-				for (int z = 0; z < p; z++){
-					sum += a[i][z] * b[z][j];
+			double[] rowA = a[i];
+			double[] rowC = result[i];
+			for (int z = 0; z < p; z++){
+				double aik = rowA[z];
+				double[] rowB = b[z];
+				for (int j = 0; j < n; j++){
+					rowC[j] += aik * rowB[j];
 				}
-				result[i][j] = sum;
 			}
 		}
 		return result;
@@ -71,12 +73,14 @@ public class MatrixMultiplication {
 				final int rowEnd = Math.min(start + chunkSize, m);
 				es.execute(() -> {
 					for (int row = rowStart; row < rowEnd; row++) {
-						for (int j = 0; j < n; j++) {
-							double sum = 0.0;
-							for (int z = 0; z < p; z++) {
-								sum += a[row][z] * b[z][j];
+						double[] rowA = a[row];
+						double[] rowC = result[row];
+						for (int z = 0; z < p; z++){
+							double aik = rowA[z];
+							double[] rowB = b[z];
+							for (int j = 0; j < n; j++){
+								rowC[j] += aik * rowB[j];
 							}
-							result[row][j] = sum;
 						}
 					}
 				});
@@ -139,8 +143,8 @@ public class MatrixMultiplication {
 
 			es.shutdown();
 			try {
-				// wait up to 1 minute for all tasks to finish
-				if (!es.awaitTermination(60, java.util.concurrent.TimeUnit.SECONDS)) {
+				// wait up to 500 seconds for all tasks to finish (single-threaded 4000x4000 needs well over a minute)
+				if (!es.awaitTermination(500, java.util.concurrent.TimeUnit.SECONDS)) {
 					es.shutdownNow();
 					throw new RuntimeException("Timed out waiting for parallel tasks to finish");
 				}

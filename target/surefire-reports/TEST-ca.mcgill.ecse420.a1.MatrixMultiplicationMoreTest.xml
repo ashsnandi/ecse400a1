@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ca.mcgill.ecse420.a1.MatrixMultiplicationMoreTest" time="0.023" tests="3" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="ca.mcgill.ecse420.a1.MatrixMultiplicationMoreTest" time="329.173" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="26"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="CA"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-26-openjdk/lib"/>
-    <property name="sun.java.command" value="/home/ashsnandi/Repos/ecse400/ecse400a1/target/surefire/surefirebooter-20260929154012435_3.jar /home/ashsnandi/Repos/ecse400/ecse400a1/target/surefire 2026-09-29T15-40-12_342-jvmRun1 surefire-20260929154012435_1tmp surefire_0-20260929154012435_2tmp"/>
+    <property name="sun.java.command" value="/home/ashsnandi/Repos/ecse400/ecse400a1/target/surefire/surefirebooter-20261009235626290_3.jar /home/ashsnandi/Repos/ecse400/ecse400a1/target/surefire 2026-10-09T23-56-26_141-jvmRun1 surefire-20261009235626290_1tmp surefire_0-20261009235626290_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/home/ashsnandi/Repos/ecse400/ecse400a1/target/test-classes:/home/ashsnandi/Repos/ecse400/ecse400a1/target/classes:/home/ashsnandi/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/home/ashsnandi/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/home/ashsnandi/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/ashsnandi/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/home/ashsnandi/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/ashsnandi/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/home/ashsnandi/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/home/ashsnandi/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -27,7 +27,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/home/ashsnandi/Repos/ecse400/ecse400a1/target/surefire/surefirebooter-20260929154012435_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/ashsnandi/Repos/ecse400/ecse400a1/target/surefire/surefirebooter-20261009235626290_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="26.0.1"/>
     <property name="user.name" value="ashsnandi"/>
@@ -54,7 +54,138 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="70.0"/>
   </properties>
-  <testcase name="parallelThrowsOnInvalidDimensions" classname="ca.mcgill.ecse420.a1.MatrixMultiplicationMoreTest" time="0.001"/>
-  <testcase name="randomSmallMatricesMatch" classname="ca.mcgill.ecse420.a1.MatrixMultiplicationMoreTest" time="0.016"/>
-  <testcase name="identityMatrixMultiplication" classname="ca.mcgill.ecse420.a1.MatrixMultiplicationMoreTest" time="0.002"/>
+  <testcase name="testVaryingSize" classname="ca.mcgill.ecse420.a1.MatrixMultiplicationMoreTest" time="21.604">
+    <system-out><![CDATA[1, 423941185
+2, 253305897
+3, 185772750
+4, 28526577
+5, 28968568
+6, 29088527
+7, 28774740
+8, 29673228
+9, 28440343
+10, 28715858
+11, 28717972
+12, 28262065
+13, 28518292
+14, 28825136
+15, 28842418
+16, 28677505
+17, 28857487
+18, 31611646
+19, 29357638
+20, 29174670
+21, 35501143
+22, 47112758
+23, 35289731
+24, 33294837
+25, 30420641
+26, 32903744
+27, 33924054
+28, 33845464
+29, 34924336
+30, 29737641
+31, 28876343
+32, 29792896
+33, 33121317
+34, 29782636
+35, 29170673
+36, 29881074
+37, 38008452
+38, 30915241
+39, 36337324
+40, 29637741
+41, 29721641
+42, 29586063
+43, 32699445
+44, 32033508
+45, 29422832
+46, 29161556
+47, 30663833
+48, 29972467
+49, 29224696
+50, 29348100
+51, 29981936
+52, 28636457
+53, 32232016
+54, 30095292
+55, 29424917
+56, 29774110
+57, 29496743
+58, 29531369
+59, 30047851
+60, 29819797
+61, 29539514
+62, 30254554
+63, 29357909
+64, 29476625
+65, 29296964
+66, 29504828
+67, 29608165
+68, 29893427
+69, 29830478
+70, 29627442
+71, 29714247
+72, 29831701
+73, 29191784
+74, 29317903
+75, 29936761
+76, 29280603
+77, 30138193
+78, 29845086
+79, 29266065
+80, 29882988
+81, 29291904
+82, 29535447
+83, 29438092
+84, 29963400
+85, 29115738
+86, 29696303
+87, 30048684
+88, 30287017
+89, 29992456
+90, 30281946
+91, 29773801
+92, 29514387
+93, 29909308
+94, 29424517
+95, 29634265
+96, 30431863
+97, 29603717
+98, 29089900
+99, 29950035
+]]></system-out>
+  </testcase>
+  <testcase name="testVaryingByThreadCount" classname="ca.mcgill.ecse420.a1.MatrixMultiplicationMoreTest" time="248.707">
+    <system-out><![CDATA[1 threads, par=81775494621ns
+2 threads, par=39029440850ns
+3 threads, par=25634238435ns
+4 threads, par=19366902751ns
+5 threads, par=8058793635ns
+6 threads, par=7419768792ns
+7 threads, par=6263337811ns
+8 threads, par=5458733386ns
+9 threads, par=4886159834ns
+10 threads, par=4541721822ns
+11 threads, par=4222004641ns
+12 threads, par=7632631768ns
+13 threads, par=7311466962ns
+14 threads, par=7578656542ns
+15 threads, par=9082503643ns
+16 threads, par=10090961014ns
+]]></system-out>
+  </testcase>
+  <testcase name="parallelThrowsOnInvalidDimensions" classname="ca.mcgill.ecse420.a1.MatrixMultiplicationMoreTest" time="0.002"/>
+  <testcase name="testVaryingBySize" classname="ca.mcgill.ecse420.a1.MatrixMultiplicationMoreTest" time="58.843">
+    <system-out><![CDATA[100, seq=171566ns, par=1657754ns
+200, seq=1209280ns, par=1208139ns
+500, seq=20586281ns, par=4929577ns
+1000, seq=161849127ns, par=38183334ns
+2000, seq=2715889633ns, par=552708952ns
+3000, seq=12816577814ns, par=2902055442ns
+4000, seq=29803189867ns, par=9115553180ns
+]]></system-out>
+  </testcase>
+  <testcase name="randomSmallMatricesMatch" classname="ca.mcgill.ecse420.a1.MatrixMultiplicationMoreTest" time="0.011"/>
+  <testcase name="identityMatrixMultiplication" classname="ca.mcgill.ecse420.a1.MatrixMultiplicationMoreTest" time="0.001"/>
 </testsuite>
